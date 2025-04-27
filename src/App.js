@@ -1,24 +1,47 @@
-import { useEffect } from "react";
+// ⊗jsrtPmHkUED
+// 1
+
+import { useEffect, useState } from "react";
 import styles from './App.module.css';
 
 function App() {
 
-  let textTitle = 'Тайтл';
+  const [userName, setUserName] = useState('');
+  const [arrNames, setArrNames] = useState(() => {
+    const arr = localStorage.getItem('arrNames');
+    return arr ? JSON.parse(arr) : [];
+  });
+
+  function addUserNameInNames() {
+    if (userName.length < 1) return;
+    setArrNames([...arrNames, userName.trim()]);
+    setUserName('');
+  }
 
   useEffect(() => {
-    textTitle = 'Новый тайтл';
-  }, []);
+    localStorage.setItem('userName', userName);
+  }, [userName]);
+
+  useEffect(() => {
+    localStorage.setItem('arrNames', JSON.stringify(arrNames))
+  }, [arrNames]);
+
+  let list = arrNames.map((elem, index) => {
+    return <li key={index} id={index}>{elem}</li>
+  });
 
   return (
-
     <div className={styles.container}>
-      <h1>{textTitle}</h1>
-      <p>
-        Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты. Вдали от всех живут они в буквенных домах на берегу Семантика большого языкового океана. Маленький ручеек Даль журчит по всей стране и обеспечивает ее всеми необходимыми правилами. Эта парадигматическая страна, в которой жаренные члены предложения залетают прямо в рот. Даже всемогущая пунктуация не имеет власти над рыбными текстами, ведущими безорфографичный образ жизни. Однажды одна маленькая строчка рыбного текста по имени Lorem ipsum решила выйти в большой мир грамматики. Великий Оксмокс предупреждал ее о злых запятых, диких знаках вопроса и коварных точках с запятой, но текст не дал сбить себя с толку. Он собрал семь своих заглавных букв, подпоясал инициал за пояс и пустился в дорогу. Взобравшись на первую вершину курсивных гор, бросил он последний взгляд назад, на силуэт своего родного города Буквоград, на заголовок деревни Алфавит и на подзаголовок своего переулка Строчка. Грустный риторический вопрос скатился по его щеке и он продолжил свой путь. По дороге встретил текст рукопись. Она предупредила его: «В моей стране все переписывается по несколько раз. Единственное, что от меня осталось, это приставка «и». Возвращайся ты лучше в свою безопасную страну». Не послушавшись рукописи, наш текст продолжил свой путь. Вскоре ему повстречался коварный составитель
-      </p>
+      <h1>Тайтл</h1>
+      <input value={userName} onChange={event => setUserName(event.target.value)} />
+      <button onClick={() => addUserNameInNames()}>Добавить</button>
+      <button onClick={() => { localStorage.clear(); setArrNames([]) }}>Очистить</button>
+      <ul>
+        {list}
+      </ul>
     </div>
-
   );
+
 }
 
 export default App;
