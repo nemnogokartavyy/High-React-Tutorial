@@ -1,3 +1,17 @@
 .container {
     padding: 25px;
 }
+
+.link {
+    cursor: pointer;
+    background-color: yellow;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.block {
+    margin: 0;
+    background-color: yellow;
+    border: 1px solid black;
+    padding: 5px;
+}
